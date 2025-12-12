@@ -1,0 +1,444 @@
+/* LeftSidebar.css
+   Complete stylesheet matching the provided LeftSidebar.jsx
+   — dropdown, search, chat list, responsive tweaks
+*/
+
+/* Root sidebar */
+.ls {
+  width: 320px;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(18,18,30,0.98), rgba(12,12,20,0.95));
+  color: #fff;
+  box-sizing: border-box;
+  padding: 18px;
+  gap: 12px;
+}
+
+/* Top area (logo, menu, search) */
+.ls-top {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* logo + menu row */
+.ls-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* logo */
+.logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* menu wrapper (relative so dropdown can position) */
+.menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* actual menu icon */
+.menu-icon {
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: block;
+  border-radius: 8px;
+  padding: 6px;
+  background: transparent;
+  transition: background 120ms ease, transform 120ms ease;
+}
+.menu-icon:hover,
+.menu-icon:focus {
+  background: rgba(255,255,255,0.02);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* dropdown popup */
+.sub-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 180px;
+  background: rgba(18, 18, 30, 0.98);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  padding: 8px;
+  z-index: 9999;
+  pointer-events: auto;
+  transform-origin: top right;
+  animation: popup 140ms ease;
+}
+
+/* small popup animation */
+@keyframes popup {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* menu items (buttons for accessibility) */
+.sub-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: inherit;
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 120ms ease;
+}
+.sub-menu-item:hover,
+.sub-menu-item:focus {
+  background: rgba(255,255,255,0.03);
+  outline: none;
+}
+
+/* divider inside popup */
+.sub-menu hr {
+  margin: 6px 0;
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.04);
+}
+
+/* SEARCH */
+.ls-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.02);
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+.ls-search img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+  user-select: none;
+}
+.ls-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Chat list area */
+.ls-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 6px; /* allow room for scrollbar */
+}
+
+/* single friend / chat item */
+.freinds {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 120ms ease, transform 120ms ease;
+}
+.freinds:hover {
+  background: rgba(255,255,255,0.02);
+  transform: translateY(-1px);
+}
+.freinds img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.freinds div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.freinds p {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.freinds span {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "add-user" shown after search */
+.add-user {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+/* no-user / empty text */
+.no-user {
+  padding: 12px;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* scrollbar styling (webkit) — optional polish */
+.ls-list::-webkit-scrollbar {
+  width: 8px;
+}
+.ls-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+.ls-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* small screens: collapse width, tighten spacing */
+@media (max-width: 880px) {
+  .ls {
+    width: 100%;
+    padding: 12px;
+  }
+  .ls-search {
+    padding: 6px 8px;
+  }
+  .freinds img {
+    width: 40px;
+    height: 40px;
+  }
+  .logo {
+    height: 34px;
+  }
+}
+
+/* accessibility focus visible */
+.menu-icon:focus,
+.sub-menu-item:focus,
+.freinds:focus {
+  outline: 2px solid rgba(108,91,255,0.18);
+  outline-offset: 2px;
+}
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2ecc71;
+  /* green */
+  display: inline-block;
+  margin-left: 8px;
+  box-shadow: 0 0 6px rgba(46, 204, 113, 0.45);
+  flex-shrink: 0;
+}
+
+.freinds {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  position: relative;
+}
+
+.freinds img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.freinds-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.freinds-meta p {
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.freinds-meta span {
+  display: block;
+  opacity: 0.7;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hide-chat-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #bbb;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s ease;
+}
+
+.hide-chat-btn:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  background: #4aff4a;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+/* ================================
+   MOBILE FRIENDLY STYLES
+   ================================ */
+
+@media (max-width: 768px) {
+  .ls {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    border-right: none;
+  }
+
+  .ls-top {
+    padding: 12px 14px;
+  }
+
+  .ls-nav .logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .menu-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ls-search {
+    margin-top: 12px;
+    padding: 10px;
+  }
+
+  .ls-search input {
+    font-size: 14px;
+  }
+
+  .ls-list {
+    padding: 10px 8px;
+    overflow-y: auto;
+  }
+
+  /* Chat Row */
+  .freinds {
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .freinds img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .freinds-meta p {
+    font-size: 14px;
+  }
+
+  .freinds-meta span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  /* unread dot */
+  .unread-dot {
+    width: 9px;
+    height: 9px;
+    margin-left: 6px;
+  }
+
+  /* Hide button better for mobile */
+  .hide-chat-btn {
+    font-size: 20px;
+    margin-left: auto;
+    opacity: 0.5;
+    background: transparent;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  .hide-chat-btn:active {
+    transform: scale(0.85);
+  }
+
+  .hide-chat-btn:hover {
+    opacity: 1;
+  }
+}
+
+/* ================================
+   EXTRA SMALL DEVICES (mobile)
+   ================================ */
+
+@media (max-width: 480px) {
+
+  .ls-nav {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ls-search {
+    padding: 8px;
+  }
+
+  .freinds {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .freinds img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .freinds-meta p {
+    font-size: 13px;
+  }
+
+  .freinds-meta span {
+    font-size: 11px;
+  }
+
+  .hide-chat-btn {
+    font-size: 18px;
+  }
+}
