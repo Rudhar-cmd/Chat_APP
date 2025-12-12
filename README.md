@@ -1,6 +1,7 @@
 # Chat_APP
 
-- screenshot: <img width="1102" height="656" alt="Screenshot 2025-12-12 at 1 56 13 PM" src="https://github.com/user-attachments/assets/77b8fad7-b584-4ea9-8c9f-2545017af6db" />
+- screenshot: <img width="944" height="648" alt="Screenshot 2025-12-12 at 2 27 13 PM" src="https://github.com/user-attachments/assets/41d23734-36a5-497e-832f-8a77425e6752" />
+
 
 
 - description: |
