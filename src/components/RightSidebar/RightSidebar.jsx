@@ -8,7 +8,7 @@ function RightSidebar() {
 
   const { chatUser, messages } = useContext(AppContext);
 
-  // filter only messages that contain an image
+
   const mediaImages = Array.isArray(messages)
     ? messages.filter(m => m.image)
     : [];

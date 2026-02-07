@@ -1,4 +1,3 @@
-// src/components/LeftSidebar/LeftSidebar.jsx
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./LeftSidebar.css";
 
@@ -39,7 +38,13 @@ export default function LeftSidebar() {
   const { userData, chatData = [], setChatUser, setMessagesId } =
     useContext(AppContext);
 
-  /* ---------------- CLOSE MENU ON OUTSIDE CLICK ---------------- */
+  const safeUser = (u) => ({
+    id: u.id,
+    username: u.username,
+    name: u.name || "",
+    avatar: u.avatar || "",
+  });
+
   useEffect(() => {
     const closeMenu = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -51,7 +56,6 @@ export default function LeftSidebar() {
     return () => document.removeEventListener("click", closeMenu);
   }, []);
 
-  /* ---------------- SEARCH LOGIC ---------------- */
   const inputHandler = (e) => {
     const txt = (e.target.value || "").trim().toLowerCase();
 
@@ -92,7 +96,6 @@ export default function LeftSidebar() {
     }
   };
 
-  /* ---------------- ADD CHAT ---------------- */
   const addChat = async () => {
     if (!foundUser || !userData) return;
 
@@ -130,7 +133,7 @@ export default function LeftSidebar() {
           rId: foundUser.id,
           updatedAt: now,
           messageSeen: true,
-          userData: foundUser,
+          userData: safeUser(foundUser),
           hiddenFor: [],
         }),
       });
@@ -142,7 +145,7 @@ export default function LeftSidebar() {
           rId: userData.id,
           updatedAt: now,
           messageSeen: false,
-          userData: userData,
+          userData: safeUser(userData),
           hiddenFor: [],
         }),
       });
@@ -159,7 +162,6 @@ export default function LeftSidebar() {
     }
   };
 
-  /* ---------------- LOGOUT ---------------- */
   const handleLogout = async () => {
     try {
       await logout();
@@ -171,7 +173,6 @@ export default function LeftSidebar() {
     }
   };
 
-  /* ---------------- OPEN CHAT & MARK SEEN ---------------- */
   const openChat = async (item) => {
     if (!userData) return;
 
@@ -198,7 +199,6 @@ export default function LeftSidebar() {
     }
   };
 
-  /* ---------------- HIDE CHAT (TEMP DELETE) ---------------- */
   const hideChat = async (item) => {
     if (!userData) return;
 
@@ -234,10 +234,8 @@ export default function LeftSidebar() {
     }
   };
 
-  /* ---------------- JSX ---------------- */
   return (
     <div className="ls">
-      {/* TOP SECTION */}
       <div className="ls-top">
         <div className="ls-nav">
           <img src={logo} className="logo" alt="logo" />
@@ -281,7 +279,6 @@ export default function LeftSidebar() {
           </div>
         </div>
 
-        {/* SEARCH */}
         <div className="ls-search">
           <img src={searchIcon} alt="search" />
           <input
@@ -292,7 +289,6 @@ export default function LeftSidebar() {
         </div>
       </div>
 
-      {/* CHAT LIST */}
       <div className="ls-list">
         {showSearch ? (
           foundUser ? (
@@ -306,7 +302,6 @@ export default function LeftSidebar() {
             </p>
           )
         ) : chatData.length > 0 ? (
-
           chatData
             .filter(
               (c) =>
@@ -333,7 +328,6 @@ export default function LeftSidebar() {
                   <span className="unread-dot" title="New messages"></span>
                 )}
 
-                {/* Hide chat button */}
                 <button
                   className="hide-chat-btn"
                   onClick={(e) => {
@@ -345,7 +339,6 @@ export default function LeftSidebar() {
                 </button>
               </div>
             ))
-
         ) : (
           <p className="no-user">No chats yet</p>
         )}

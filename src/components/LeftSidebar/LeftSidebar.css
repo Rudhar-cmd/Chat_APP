@@ -442,3 +442,11 @@
     font-size: 18px;
   }
 }
+.mobile-chat-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  margin-left: auto;
+}

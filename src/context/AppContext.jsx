@@ -1,4 +1,3 @@
-
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { auth, db } from "../config/firebase";
@@ -22,6 +21,10 @@ const AppContextProvider = ({ children }) => {
   const [chatUser, setChatUser] = useState(null);
   const [messagesId, setMessagesId] = useState(null);
   const [messages, setMessages] = useState([]);
+
+  // ✅ ADDED (mobile navigation support)
+  const [activeView, setActiveView] = useState("sidebar"); // sidebar | chat
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const authUnsubRef = useRef(null);
   const chatUnsubRef = useRef(null);
@@ -51,6 +54,7 @@ const AppContextProvider = ({ children }) => {
     }
   };
 
+  /* ---------------- AUTH ---------------- */
   useEffect(() => {
     authUnsubRef.current = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -67,6 +71,7 @@ const AppContextProvider = ({ children }) => {
     };
   }, []);
 
+  /* ---------------- CHATS ---------------- */
   useEffect(() => {
     if (!userData?.id) return;
 
@@ -96,7 +101,6 @@ const AppContextProvider = ({ children }) => {
     return () => chatUnsubRef.current?.();
   }, [userData]);
 
-
   useEffect(() => {
     if (!messagesId) {
       setMessages([]);
@@ -113,11 +117,31 @@ const AppContextProvider = ({ children }) => {
     return () => messagesUnsubRef.current?.();
   }, [messagesId]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+
+      if (!mobile) {
+        setActiveView("sidebar");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  useEffect(() => {
+    if (chatUser && isMobile) {
+      setActiveView("chat");
+    }
+  }, [chatUser, isMobile]);
+
   return (
     <AppContext.Provider
       value={{
         userData,
         setUserData,
+        loadUserData, 
         chatData,
         setChatData,
         chatUser,
@@ -125,7 +149,11 @@ const AppContextProvider = ({ children }) => {
         messagesId,
         setMessagesId,
         messages,
-        setMessages
+        setMessages,
+
+        isMobile,
+        activeView,
+        setActiveView
       }}
     >
       {children}
