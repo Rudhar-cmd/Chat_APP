@@ -5,10 +5,7 @@ import {doc, getFirestore, setDoc} from "firebase/firestore"
 import { use } from "react";
 import { toast } from "react-toastify";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAqqa-PFmn859nemhCI-aVrcAcEPKFPRwg",
   authDomain: "chat-app-63211.firebaseapp.com",
