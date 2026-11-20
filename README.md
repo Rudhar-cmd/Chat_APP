@@ -1,123 +1,104 @@
-# Chat_APP
+# Chat App
 
-- screenshot: <img width="1102" height="656" alt="Screenshot 2025-12-12 at 1 56 13 PM" src="https://github.com/user-attachments/assets/77b8fad7-b584-4ea9-8c9f-2545017af6db" />
+A responsive one-to-one messaging app built with React and Firebase. It uses Firebase Authentication for accounts and Cloud Firestore for chat data and real-time updates—there is no separate custom backend.
 
+![Chat App preview](https://github.com/user-attachments/assets/77b8fad7-b584-4ea9-8c9f-2545017af6db)
 
-- description: |
-    A real-time chat application built with React and Firebase.
-    Users can sign up, log in, and chat instantly with real-time updates.
-    The UI is clean, responsive, and optimized for a modern chatting experience.
+## Features
 
-# Description
-description: |
-  Chat_App is a responsive real-time chatting application.
-  It lets users authenticate securely and exchange messages instantly.
-  Firebase Authentication handles user login, while Firestore provides live chat updates.
+- Sign up and sign in with email and password
+- Create a profile with a name, bio, phone number, and avatar
+- Find people by username and start a direct conversation
+- Receive live chat and message updates from Firestore
+- Send text messages and select image attachments
+- View conversation media and message timestamps
+- See unread conversation indicators
+- Hide conversations, delete your own messages, and report a conversation
+- Use the chat layout on desktop and mobile
 
-# Features
-features:
-  - User signup (Firebase Authentication)
-  - User login with email/password
-  - Real-time messaging using Firestore
-  - Auto-scroll to latest message
-  - Timestamps on messages
-  - Responsive UI (mobile + desktop)
-  - Context API for global user state
-  - Error handling for login/signup
-  - Protected chat route
+## Built with
 
-# Technologies Used
-technologies_used:
-  frontend:
-    - React (Vite)
-    - JavaScript (ES6+)
-    - CSS3
-  backend:
-    - Firebase Authentication
-    - Firebase Firestore
-  tools:
-    - Git & GitHub
-    - VS Code
-    - Netlify / Vercel
-    - npm
+- React 19 and Vite
+- JavaScript and CSS
+- Firebase Authentication
+- Cloud Firestore
+- React Router
 
-# Project Structure
-project_structure:
-  public: "Static assets and index.html"
-  src:
-    Assets: "Logos and icons"
-    Components:
-      Login.jsx: "Handles login logic + UI"
-      Signup.jsx: "Handles new user registration"
-      Chat.jsx: "Chat interface and Firestore logic"
-    context:
-      UserContext.jsx: "Manages global auth state"
-    firebase:
-      firebase.jsx: "Firebase configuration file"
-    root_files:
-      App.jsx: "Main routing & component integration"
-      App.css: "Global styles"
-      index.css: "Base styles"
-      main.jsx: "React entry point"
-  config_files:
-    - vite.config.js
-    - ".env (Stores Firebase API keys securely)"
+## Getting started
 
-# Environment Variables
-environment_variables:
-  info: "Create a `.env` file in the project root:"
-  variables:
-    - VITE_FIREBASE_API_KEY
-    - VITE_FIREBASE_AUTH_DOMAIN
-    - VITE_FIREBASE_PROJECT_ID
-    - VITE_FIREBASE_STORAGE_BUCKET
-    - VITE_FIREBASE_MESSAGING_SENDER_ID
-    - VITE_FIREBASE_APP_ID
+### Requirements
 
-# Installation
-installation:
-  steps:
-    - step: "Clone the repository"
-      command: "git clone https://github.com/Rudhar-cmd/Chat_APP.git"
+- Node.js 20.19+ or 22.12+
+- npm
+- A Firebase project
 
-    - step: "Navigate to project directory"
-      command: "cd Chat_APP"
+### Install and run
 
-    - step: "Install dependencies"
-      command: "npm install"
+```bash
+git clone https://github.com/Rudhar-cmd/Chat_APP.git
+cd Chat_APP
+npm install
+npm run dev
+```
 
-    - step: "Run development server"
-      command: "npm run dev"
+Vite prints a local URL in the terminal after the development server starts.
 
-# Usage
-usage:
-  description: |
-    1. Sign up or log in.
-    2. Enter the chat room.
-    3. Type your message and send.
-    4. Messages appear instantly with timestamps.
+### Configure Firebase
 
-# Example Chat Flow
-example_flow:
-  - "User signs up"
-  - "User logs in"
-  - "Chat page loads"
-  - "User sends message: 'Hello!'"
-  - "Firestore updates instantly"
+1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com/).
+2. Enable **Email/Password** under Authentication providers.
+3. Create a Cloud Firestore database.
+4. Register a web app in the Firebase project.
+5. Add your web app's Firebase configuration to the `firebaseConfig` object in [`src/config/firebase.js`](./src/config/firebase.js).
+6. Configure Firestore Security Rules for your app before using real user data.
 
-# Firebase Services Used
-firebase_services:
-  authentication:
-    - "Email & Password Authentication"
-    - "Invalid credential error handling"
-  firestore:
-    - "Stores chat messages"
-    - "Real-time update listeners"
+The Firebase web configuration is used by the browser and is not an authorization boundary. Restrict the API key where appropriate, and use Security Rules to protect user and chat data. Do not use open/test-mode Firestore rules in production.
 
-# License
-license:
-  type: MIT
-  description: "This project is open-source under the MIT License."
+## Available scripts
 
-  github: "https://github.com/Rudhar-cmd"
-  repository: "https://github.com/Rudhar-cmd/Chat_APP"
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the local Vite development server |
+| `npm run build` | Create a production build in `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Data model
+
+The app stores its data in Firestore:
+
+- `users/{uid}` — account profile information
+- `chats/{uid}` — a user's conversation list and last-message metadata
+- `messages/{conversationId}` — messages for a conversation
+- `reports/{reportId}` — submitted conversation reports
+
+## Project structure
+
+```text
+src/
+├── components/
+│   ├── Avatar.jsx
+│   ├── Chatbox/
+│   ├── LeftSidebar/
+│   └── RightSidebar/
+├── config/
+│   └── firebase.js
+├── context/
+│   └── AppContext.jsx
+├── pages/
+│   ├── Chat/
+│   ├── Login/
+│   └── ProfileUpdate/
+├── assets/
+├── App.jsx
+└── main.jsx
+```
+
+## Notes
+
+- Firebase Authentication and Firestore are accessed directly from the client; Firebase Security Rules are essential.
+- Image selection includes a local preview. Persistent image sharing across devices requires uploading images to Firebase Storage; the current message flow does not yet provide that persistence.
+
+## License
+
+No license file is currently included in this repository.
