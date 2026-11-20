@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 
 export default function Chatbox() {
-  const { userData, chatUser, messages, setMessages, messagesId } =
+  const { userData, chatUser, messages, setMessages, messagesId, setActiveView } =
     useContext(AppContext);
 
   const [input, setInput] = useState("");
@@ -153,9 +153,7 @@ export default function Chatbox() {
 
   const removePreview = () => {
     if (imagePreview?.url && imagePreview.url.startsWith("blob:")) {
-      try {
-        URL.revokeObjectURL(imagePreview.url);
-      } catch (e) {}
+      URL.revokeObjectURL(imagePreview.url);
     }
     setImagePreview(null);
     if (fileRef.current) fileRef.current.value = "";
@@ -260,6 +258,14 @@ export default function Chatbox() {
     <div className="chat-box">
       {/* HEADER */}
       <div className="chat-user">
+        <button
+          type="button"
+          className="mobile-back-btn"
+          aria-label="Back to conversations"
+          onClick={() => setActiveView("sidebar")}
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
         <div className="header-avatar-wrap">
           <img src={chatUser.avatar || defaultProfile} className="header-avatar" alt="" />
           <span className="online-dot" />

@@ -1,39 +1,89 @@
-
 .chat {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  background: linear-gradient(135deg, #a46bff 0%, #9f5fff 100%);
-  box-sizing: border-box;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  padding: clamp(12px, 2.5vw, 32px);
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(116, 87, 255, 0.2), transparent 34%),
+    #10111a;
+  color: #f7f7fb;
 }
 
 .chat-container {
-  width: 96%;
-  max-width: 1200px;
-  height: 86vh;
+  width: min(1440px, 100%);
+  height: min(900px, calc(100vh - 64px));
+  height: min(900px, calc(100dvh - 64px));
+  min-height: 560px;
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
-  gap: 0;
-  background: rgba(255,255,255,0.06);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
+  grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(220px, 280px);
+  background: #171923;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
 }
 
 .loading-wrap {
   width: 100%;
-  height: 80vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading-text {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 600;
+  color: #c9c7d8;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+@media (max-width: 1080px) {
+  .chat-container {
+    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+  }
+
+  .chat-container > .rs {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat {
+    display: block;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+  }
+
+  .chat-container {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    border: 0;
+    border-radius: 0;
+  }
+
+  .chat-container.mobile-view-sidebar .chat-box {
+    display: none;
+  }
+
+  .chat-container.mobile-view-chat .ls {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

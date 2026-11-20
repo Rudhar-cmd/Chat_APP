@@ -125,3 +125,80 @@
   background: #ff235a;
   transform: translateY(-2px);
 }
+
+.rs {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  padding: 24px 18px;
+  border-left-color: rgba(255, 255, 255, 0.07);
+  background: #1b1d28;
+  backdrop-filter: none;
+}
+
+.profile-img {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 14px;
+}
+
+.profile-img img {
+  border: 2px solid rgba(155, 140, 255, 0.3);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  background: #55d69e;
+  animation: none;
+}
+
+.rs-profile h3 {
+  color: #f7f7fb;
+  font-size: 15px;
+}
+
+.rs-profile p {
+  color: #9c9eaf;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rs hr {
+  background: rgba(255, 255, 255, 0.08);
+  margin: 20px 0 16px;
+}
+
+.rs-media > p {
+  color: #f0eff7;
+  font-size: 13px;
+}
+
+.rs-media-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rs-media-grid img {
+  height: 82px;
+  border-radius: 10px;
+}
+
+.rs .no-media {
+  grid-column: 1 / -1;
+  color: #9c9eaf;
+  font-size: 12px;
+}
+
+.rs button {
+  min-height: 42px;
+  margin-top: auto;
+  border: 1px solid rgba(255, 112, 145, 0.18);
+  background: rgba(255, 91, 123, 0.1);
+  color: #ff9aaf;
+}
+
+.rs button:hover {
+  background: rgba(255, 91, 123, 0.17);
+  transform: none;
+}

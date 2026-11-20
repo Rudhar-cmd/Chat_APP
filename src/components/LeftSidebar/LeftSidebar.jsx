@@ -35,8 +35,14 @@ export default function LeftSidebar() {
   const searchTimer = useRef(null);
 
   const navigate = useNavigate();
-  const { userData, chatData = [], setChatUser, setMessagesId } =
-    useContext(AppContext);
+  const {
+    userData,
+    chatData = [],
+    chatUser,
+    setChatUser,
+    setMessagesId,
+    setActiveView,
+  } = useContext(AppContext);
 
   const safeUser = (u) => ({
     id: u.id,
@@ -153,6 +159,7 @@ export default function LeftSidebar() {
       toast.success("Chat created!");
       setChatUser(foundUser);
       setMessagesId(newMessageRef.id);
+      setActiveView("chat");
       setShowSearch(false);
       setFoundUser(null);
       setOpenMenu(false);
@@ -178,6 +185,7 @@ export default function LeftSidebar() {
 
     setChatUser(item.userData || null);
     setMessagesId(item.messagesId || null);
+    setActiveView("chat");
 
     try {
       const myChatRef = doc(db, "chats", userData.id);
@@ -279,11 +287,16 @@ export default function LeftSidebar() {
           </div>
         </div>
 
+        <div className="ls-heading">
+          <h1>Messages</h1>
+          <p>Stay close, wherever you are.</p>
+        </div>
+
         <div className="ls-search">
           <img src={searchIcon} alt="search" />
           <input
             type="text"
-            placeholder="Search Here..."
+            placeholder="Find people by username"
             onChange={inputHandler}
           />
         </div>
@@ -311,7 +324,7 @@ export default function LeftSidebar() {
             .map((item) => (
               <div
                 key={item.messagesId}
-                className="freinds"
+                className={`freinds${chatUser?.id === item.rId ? " freinds-active" : ""}`}
                 onClick={() => openChat(item)}
               >
                 <img

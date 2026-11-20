@@ -1,24 +1,18 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import './Chat.css';
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import RightSidebar from '../../components/RightSidebar/RightSidebar';
 import Chatbox from '../../components/Chatbox/Chatbox';
 import { AppContext } from '../../context/AppContext';
-import { useState } from 'react';
 function Chat() {
-  const {chatData,userData} = useContext(AppContext);
-  const [loading,setLoading] = useState(true);
-  useEffect(()=>{
-     if(chatData && userData){
-      setLoading(false) 
-     }
-  },[chatData,userData])
+  const {chatData,userData,isMobile,activeView} = useContext(AppContext);
+  const loading = !chatData || !userData;
   return (
     <div className='chat'>
       {
         loading
-        ?<p className='loading'>Loading....</p>
-        :<div className='chat-container'>
+        ?<div className='loading-wrap' role='status'><p className='loading-text'>Loading your conversations...</p></div>
+        :<div className={`chat-container${isMobile ? ` mobile-view-${activeView}` : ''}`}>
         <LeftSidebar/>
         <Chatbox/>
          <RightSidebar/>
