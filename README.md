@@ -2,8 +2,6 @@
 
 A responsive one-to-one messaging app built with React and Firebase. It uses Firebase Authentication for accounts and Cloud Firestore for chat data and real-time updates—there is no separate custom backend.
 
-![Chat App preview](https://github.com/user-attachments/assets/77b8fad7-b584-4ea9-8c9f-2545017af6db)
-
 ## Features
 
 - Sign up and sign in with email and password
