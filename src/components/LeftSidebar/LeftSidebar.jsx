@@ -4,7 +4,7 @@ import "./LeftSidebar.css";
 import logo from "../../assets/ChatGPT Image Dec 6, 2025, 02_09_34 PM.png";
 import menuIcon from "../../assets/6d6435ce-aa4f-4b0d-888e-610b19996d2b.png";
 import searchIcon from "../../assets/a15dc9ed-a526-4ca7-bfa7-ba2f178164ce.png";
-import profilePlaceholder from "../../assets/Profile.png";
+import Avatar from "../Avatar";
 
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
@@ -306,7 +306,7 @@ export default function LeftSidebar() {
         {showSearch ? (
           foundUser ? (
             <div className="freinds add-user" onClick={addChat}>
-              <img src={foundUser.avatar || profilePlaceholder} alt="" />
+              <Avatar src={foundUser.avatar} alt="" />
               <p>{foundUser.name || foundUser.username}</p>
             </div>
           ) : (
@@ -327,8 +327,8 @@ export default function LeftSidebar() {
                 className={`freinds${chatUser?.id === item.rId ? " freinds-active" : ""}`}
                 onClick={() => openChat(item)}
               >
-                <img
-                  src={item.userData?.avatar || profilePlaceholder}
+                <Avatar
+                  src={item.userData?.avatar}
                   alt="avatar"
                 />
 

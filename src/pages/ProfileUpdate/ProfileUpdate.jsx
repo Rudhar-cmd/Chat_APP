@@ -1,7 +1,8 @@
 // src/pages/ProfileUpdate/ProfileUpdate.jsx
 import React, { useContext, useEffect, useState } from 'react'
 import './ProfileUpdate.css'
-import profile from '../../assets/Profile.png'
+import Avatar from '../../components/Avatar'
+import defaultAvatar from '../../assets/default-avatar.svg'
 
 import { onAuthStateChanged, updateProfile } from 'firebase/auth'
 import { auth, db } from '../../config/firebase'
@@ -21,7 +22,7 @@ function ProfileUpdate() {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [avatar, setAvatar] = useState('')      // preview (data URL or blob URL) if user picks one
-  const [prevImage, setPrevImage] = useState(profile) // preset default
+  const [prevImage, setPrevImage] = useState(defaultAvatar)
 
   // Load user data
   useEffect(() => {
@@ -43,13 +44,13 @@ function ProfileUpdate() {
           setEmail(data.email || user.email || '')
           setAbout(data.bio || '')
           setPhone(data.phone || '')
-          // if no avatar in firestore, use preset 'profile' asset
-          setPrevImage(data.avatar || profile)
+          // Use a neutral placeholder when no profile image has been set.
+          setPrevImage(data.avatar || defaultAvatar)
           setAvatar(data.avatar || '')
         } else {
-          // First-time user → only email exists, keep preset avatar
+          // First-time user → only email exists, keep the neutral placeholder
           setEmail(user.email || '')
-          setPrevImage(profile)
+          setPrevImage(defaultAvatar)
           setAvatar('')
         }
       } catch (err) {
@@ -93,7 +94,7 @@ function ProfileUpdate() {
       }
 
       // finalAvatar: user's selected avatar (dataURL) or previously stored avatar or packed preset
-      const finalAvatar = avatar || prevImage || profile
+      const finalAvatar = avatar || prevImage || defaultAvatar
 
       // 1) Update Firestore
       await updateDoc(docRef, {
@@ -148,8 +149,8 @@ function ProfileUpdate() {
         {/* LEFT PANEL */}
         <div className="profile-left">
           <div className="profile-avatar-wrap">
-            <img
-              src={avatar || prevImage || profile}
+            <Avatar
+              src={avatar || prevImage || defaultAvatar}
               alt="Profile"
               className="profile-avatar"
             />

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import './RightSidebar.css'
-import profile from '../../assets/Profile.png'
+import Avatar from '../Avatar'
 import { AppContext } from '../../context/AppContext'
 import { logout } from '../../config/firebase'
 
@@ -17,7 +17,7 @@ function RightSidebar() {
     <div className="rs">
       <div className="rs-profile">
         <div className="profile-img">
-          <img src={chatUser?.avatar || profile} alt="Profile" />
+          <Avatar src={chatUser?.avatar} alt="Profile" />
           <span className="dot"></span>
         </div>
         <h3>{chatUser?.name || chatUser?.username || "Unknown"}</h3>

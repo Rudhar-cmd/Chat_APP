@@ -2,7 +2,7 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import "./Chatbox.css";
 
-import defaultProfile from "../../assets/Profile.png";
+import Avatar from "../Avatar";
 import green from "../../assets/green.png";
 import helpIcon from "../../assets/Help.png";
 import gallary from "../../assets/Gallary.png";
@@ -267,7 +267,7 @@ export default function Chatbox() {
           <span aria-hidden="true">‹</span>
         </button>
         <div className="header-avatar-wrap">
-          <img src={chatUser.avatar || defaultProfile} className="header-avatar" alt="" />
+          <Avatar src={chatUser.avatar} className="header-avatar" alt="" />
           <span className="online-dot" />
         </div>
 
@@ -297,7 +297,7 @@ export default function Chatbox() {
               <div key={m.id ?? index} className={mine ? "s-msg" : "r-msg"}>
                 {!mine && (
                   <div className="msg-info">
-                    <img src={chatUser.avatar || defaultProfile} alt="avatar" />
+                    <Avatar src={chatUser.avatar} alt="avatar" />
                     <span className="msg-time">{formatTime(m.createdAt)}</span>
                   </div>
                 )}
@@ -326,7 +326,7 @@ export default function Chatbox() {
 
                 {mine && (
                   <div className="msg-info">
-                    <img src={userData.avatar || defaultProfile} alt="me" />
+                    <Avatar src={userData.avatar} alt="me" />
                     <span className="msg-time">{formatTime(m.createdAt)}</span>
                   </div>
                 )}
