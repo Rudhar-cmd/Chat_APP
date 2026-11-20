@@ -11,6 +11,8 @@ import Logo from "../../assets/ChatGPT Image Dec 6, 2025, 02_09_34 PM.png";
 
 import { AppContext } from "../../context/AppContext";
 import { db } from "../../config/firebase";
+import { toast } from "react-toastify";
+import upload from "../../lib/upload";
 import {
   doc,
   updateDoc,
@@ -27,6 +29,7 @@ export default function Chatbox() {
 
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [sending, setSending] = useState(false);
   const [selectedMsg, setSelectedMsg] = useState(null);
 
   const [reportOpen, setReportOpen] = useState(false);
@@ -107,47 +110,54 @@ export default function Chatbox() {
   /* ------------------- SEND MESSAGE ------------------- */
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim() && !imagePreview) return;
+    if (sending || (!input.trim() && !imagePreview)) return;
     if (!messagesId || !chatUser || !userData) return;
 
-    const msg = {
-      id: Date.now(),
-      from: userData.id,
-      text: input.trim(),
-      image: imagePreview?.url || null,
-      createdAt: Date.now(),
-    };
-
-    // optimistic UI
-    setMessages((prev) => [...(Array.isArray(prev) ? prev : []), msg]);
-
+    let msg;
+    setSending(true);
     try {
-      // 1) push message to messages doc
+      const imageUrl = imagePreview ? await upload(imagePreview.file) : null;
+      msg = {
+        id: Date.now(),
+        from: userData.id,
+        text: input.trim(),
+        image: imageUrl,
+        createdAt: Date.now(),
+      };
+
+      setMessages((prev) => [...(Array.isArray(prev) ? prev : []), msg]);
       await updateDoc(doc(db, "messages", messagesId), {
         messages: arrayUnion(msg),
       });
 
-      // 2) update chats for sender (current user) -> seen true
       await upsertChatEntry(userData.id, chatUser.id, messagesId, msg.text || (msg.image ? "Image" : ""), true);
-
-      // 3) update chats for recipient -> seen false (unread)
       await upsertChatEntry(chatUser.id, userData.id, messagesId, msg.text || (msg.image ? "Image" : ""), false);
-    } catch (err) {
-      console.error("Error sending message / updating chats", err);
-      // Optionally show toast
-    }
 
-    setInput("");
-    setImagePreview(null);
-    if (fileRef.current) fileRef.current.value = "";
+      setInput("");
+      if (imagePreview?.url) URL.revokeObjectURL(imagePreview.url);
+      setImagePreview(null);
+      if (fileRef.current) fileRef.current.value = "";
+    } catch (err) {
+      if (msg) {
+        setMessages((prev) =>
+          Array.isArray(prev) ? prev.filter((message) => message.id !== msg.id) : []
+        );
+      }
+      console.error("Error sending message / updating chats", err);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleImage = (e) => {
     const f = e.target.files?.[0];
     if (!f) return;
+    if (imagePreview?.url) URL.revokeObjectURL(imagePreview.url);
     setImagePreview({
       url: URL.createObjectURL(f),
       name: f.name,
+      file: f,
     });
   };
 
@@ -366,7 +376,7 @@ export default function Chatbox() {
         <input type="file" id="image" accept="image/png, image/jpeg" ref={fileRef} hidden onChange={handleImage} />
         <label htmlFor="image" className="gallery-label"><img src={gallary} alt="upload" /></label>
 
-        <button type="submit" className="send-button"><img src={sendIcon} alt="send" /></button>
+        <button type="submit" className="send-button" disabled={sending}><img src={sendIcon} alt="send" /></button>
       </form>
 
       {/* REPORT MODAL */}
