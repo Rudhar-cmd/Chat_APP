@@ -815,6 +815,121 @@
   border-radius: 8px;
   border: none;
 }
+
+.msg-has-image .msg-img {
+  margin: 0 0 8px;
+  border-radius: 12px;
+}
+
+.msg-image-only {
+  max-width: min(300px, 68vw);
+  padding: 0 !important;
+  overflow: visible;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.msg-image-only .msg-img {
+  display: block;
+  max-width: min(300px, 68vw);
+  max-height: 320px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  object-fit: contain;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.image-preview {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 68px;
+  align-self: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: auto auto 8px 0;
+  padding: 7px 14px 7px 7px;
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #20222d;
+}
+
+.preview-thumb {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  overflow: visible;
+  border-radius: 10px;
+}
+
+.preview-img {
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.preview-details {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.preview-title {
+  color: #e8e7f2;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.preview-name {
+  max-width: min(240px, 48vw);
+  overflow: hidden;
+  color: #9698a9;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-remove {
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  background: #363746;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .msg-image-only,
+  .msg-image-only .msg-img {
+    max-width: min(260px, 68vw);
+  }
+
+  .msg-image-only .msg-img {
+    max-height: 280px;
+  }
+
+  .image-preview {
+    min-height: 62px;
+    margin-bottom: 7px;
+  }
+
+  .preview-thumb,
+  .preview-img {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+}
 .reported-badge {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;

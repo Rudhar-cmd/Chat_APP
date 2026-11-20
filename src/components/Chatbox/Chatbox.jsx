@@ -303,7 +303,7 @@ export default function Chatbox() {
                 )}
 
                 <div
-                  className={`msg ${selectedMsg === m.id ? "msg-selected" : ""}`}
+                  className={`msg${m.image ? " msg-has-image" : ""}${m.image && !m.text ? " msg-image-only" : ""}${selectedMsg === m.id ? " msg-selected" : ""}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!mine) return;
@@ -340,10 +340,21 @@ export default function Chatbox() {
 
       {/* IMAGE PREVIEW */}
       {imagePreview && (
-        <div className="image-preview">
+        <div className="image-preview" aria-label="Image ready to send">
           <div className="preview-thumb">
             <img src={imagePreview.url} alt="preview" className="preview-img" />
-            <button type="button" className="preview-remove" onClick={removePreview}>×</button>
+            <button
+              type="button"
+              className="preview-remove"
+              aria-label="Remove selected image"
+              onClick={removePreview}
+            >
+              ×
+            </button>
+          </div>
+          <div className="preview-details">
+            <span className="preview-title">Photo attached</span>
+            <span className="preview-name">{imagePreview.name}</span>
           </div>
         </div>
       )}
